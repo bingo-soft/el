@@ -1,2 +1,2 @@
-# el
-Java ExpressionLanguage (EL) ported to PHP
+# Expression Language
+Java Expression Language (EL) ported to PHP
