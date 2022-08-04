@@ -1,2 +1,3 @@
 # Expression Language
-Java Expression Language (EL) ported to PHP
+
+Base classes of Java Expression Language (EL) ported to PHP
