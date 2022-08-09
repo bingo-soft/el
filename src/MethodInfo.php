@@ -6,7 +6,6 @@ class MethodInfo
 {
     private $name;
     private $returnType;
-    private $paramTypes = [];
 
     /**
      * Creates a new instance of MethodInfo with the given information.
@@ -15,14 +14,11 @@ class MethodInfo
      *            The name of the method
      * @param returnType
      *            The return type of the method
-     * @param paramTypes
-     *            The types of each of the method's parameters
      */
-    public function __construct(string $name, ?string $returnType = null, ?array $paramTypes = [])
+    public function __construct(string $name, ?string $returnType = null)
     {
         $this->name = $name;
         $this->returnType = $returnType;
-        $this->paramTypes = $paramTypes;
     }
 
     /**
@@ -33,16 +29,6 @@ class MethodInfo
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Returns the parameter types of the method
-     *
-     * @return array the parameter types of the method
-     */
-    public function getParamTypes(): array
-    {
-        return $this->paramTypes;
     }
 
     /**

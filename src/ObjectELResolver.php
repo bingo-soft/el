@@ -106,7 +106,7 @@ class ObjectELResolver extends ELResolver
         }
     }
 
-    public function invoke(?ELContext $context, $base, $method, ?array $paramTypes = [], ?array $params = [])
+    public function invoke(?ELContext $context, $base, $method, array $params = [])
     {
         if ($context === null) {
             throw new NullPointerException();
@@ -118,7 +118,7 @@ class ObjectELResolver extends ELResolver
             if ($target === null) {
                 throw new MethodNotFoundException("Cannot find method " . $name . " in " . get_class($base));
             }
-            $result = $target->invoke($base, ...($this->coerceParams($this->getExpressionFactory($context), $target, $params)));
+            $result = $target->invoke($base, ...$params);
             $context->setPropertyResolved(true);
         }
         return $result;

@@ -19,12 +19,15 @@ abstract class ExpressionFactory
      *             if the class could not be found or if it is not a subclass of ExpressionFactory
      *             or if the class could not be instantiated.
      */
-    private static function newInstance(?array $properties = null, string $className): ExpressionFactory
+    public static function newInstance(?array $properties = null, string $className): ?ExpressionFactory
     {
         if ($properties !== null) {
             return $className::newInstance(...$properties);
         }
-        return $className::newInstance();
+        if ($className !== null) {
+            return new $className();
+        }
+        return null;
     }
 
     /**
@@ -69,20 +72,14 @@ abstract class ExpressionFactory
      *            expression, the MethodExpression must check that the return type of the actual
      *            method matches this type. Passing in a value of null indicates the caller does not
      *            care what the return type is, and the check is disabled.
-     * @param expectedParamTypes
-     *            The expected parameter types for the method to be found. Must be an array with no
-     *            elements if there are no parameters expected. It is illegal to pass null.
      * @return MethodExpression The parsed expression
      * @throws ELException
      *             Thrown if there are syntactical errors in the provided expression.
-     * @throws NullPointerException
-     *             if paramTypes is null.
      */
     abstract public function createMethodExpression(
         ELContext $context,
         string $expression,
-        ?string $expectedReturnType = null,
-        ?array $expectedParamTypes = []
+        ?string $expectedReturnType = null
     ): MethodExpression;
 
     /**
@@ -109,8 +106,6 @@ abstract class ExpressionFactory
      * @return ValueExpression The parsed expression
      * @throws ELException
      *             Thrown if there are syntactical errors in the provided expression.
-     * @throws NullPointerException
-     *             if paramTypes is null.
      */
     abstract public function createValueExpression(
         ?ELContext $context = null,
