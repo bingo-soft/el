@@ -7,6 +7,8 @@ abstract class ELContext
     private $context = [];
     private $locale;
     private $resolved;
+    //whether context contains bingo-soft/util/src/MetaObject arguments
+    protected $hasMetaArguments = false;
 
     /**
      * Returns the context object associated with the given key. The ELContext maintains a
@@ -129,5 +131,15 @@ abstract class ELContext
     public function setPropertyResolved(bool $resolved): void
     {
         $this->resolved = $resolved;
+    }
+
+    public function setMetaArguments(bool $metaArguments): bool
+    {
+        $this->hasMetaArguments = $metaArguments;
+    }
+
+    public function hasMetaArguments(): bool
+    {
+        return $this->hasMetaArguments;
     }
 }
