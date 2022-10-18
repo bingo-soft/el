@@ -133,7 +133,7 @@ abstract class ELContext
         $this->resolved = $resolved;
     }
 
-    public function setMetaArguments(bool $metaArguments): bool
+    public function setMetaArguments(bool $metaArguments): void
     {
         $this->hasMetaArguments = $metaArguments;
     }
