@@ -6,7 +6,7 @@ abstract class ELContext
 {
     private $context = [];
     private $locale;
-    private $resolved;
+    private $resolved = false;
 
     /**
      * Returns the context object associated with the given key. The ELContext maintains a
