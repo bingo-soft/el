@@ -127,8 +127,12 @@ class ArrayELResolver extends ELResolver
         }
         $result = null;
         if ($this->isResolvable($base)) {
-            $index = $this->toIndex(null, $property);
-            $result = $index < 0 || $index >= count($base) ? null : $base[$index];
+            if (array_key_exists($property, $base)) {
+                $result = $base[$property];
+            } else {
+                $index = $this->toIndex($result, $property);
+                $result = $index < 0 || $index >= count($base) ? null : $base[$index];
+            }
             $context->setPropertyResolved(true);
         }
         return $result;
