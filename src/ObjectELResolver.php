@@ -187,7 +187,7 @@ class ObjectELResolver extends ELResolver
             $this->cache[$key] = $objectProperties;
         }
         $objectProperty = $property === null ? null : $objectProperties->getProperty($property);
-        if ($objectProperty === null) {
+        if ($objectProperty === null && ($objectProperty = $objectProperties->getProperty("is" . ucfirst($property))) === null) {
             throw new PropertyNotFoundException("Could not find property " . $property . " in " . get_class($base));
         }
         return $objectProperty;
