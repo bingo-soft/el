@@ -65,6 +65,7 @@ class ObjectELResolver extends ELResolver
 
     public function getValue(?ELContext $context, $base, $property)
     {
+        echo "*** Try property $property in ", get_class($this), " of ", get_class($base), "\n";
         if ($context === null) {
             throw new \Exception("Context is null");
         }
@@ -75,7 +76,11 @@ class ObjectELResolver extends ELResolver
                 throw new PropertyNotFoundException("Cannot read property " . $property);
             }
             try {
-                $result = $prop->getValue($base);
+                if (($method = $this->findMethodIfExists($base, 'get' . ucfirst($property))) || ($method = $this->findMethodIfExists($base, 'is' . ucfirst($property)))) {
+                    $result = $method->invoke($base);
+                } else {
+                    $result = $prop->getValue($base);
+                }
             } catch (\Exception $e) {
                 throw new ELException("Unable to read object property");
             }
@@ -126,14 +131,20 @@ class ObjectELResolver extends ELResolver
 
     private function findMethod($base, string $name): ?\ReflectionMethod
     {
-        $ref = new \ReflectionClass(get_class($base));
-        $method = null;
-        try {
-            $method = $ref->getMethod($name);
-        } catch (\Exception $e) {
+        $method = $this->findMethodIfExists($base, $name);
+        if ($method === null) {
             throw new MethodNotFoundException("Cannot find method " . $name . " in " . get_class($base));
         }
         return self::findAccessibleMethod($method);
+    }
+
+    private function findMethodIfExists($base, string $name): ?\ReflectionMethod
+    {
+        if (method_exists($base, $name)) {
+            $ref = new \ReflectionClass(get_class($base));
+            return $ref->getMethod($name);
+        }
+        return null;
     }
 
     private function getExpressionFactory(ELContext $context): ?ExpressionFactory
