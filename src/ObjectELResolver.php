@@ -65,7 +65,6 @@ class ObjectELResolver extends ELResolver
 
     public function getValue(?ELContext $context, $base, $property)
     {
-        echo "*** Try property $property in ", get_class($this), " of ", get_class($base), "\n";
         if ($context === null) {
             throw new \Exception("Context is null");
         }
