@@ -131,7 +131,7 @@ class ArrayELResolver extends ELResolver
                 $result = $base[$property];
             } else {
                 $index = $this->toIndex($result, $property);
-                $result = $index < 0 || $index >= count($base) ? null : $base[$index];
+                $result = isset($base[$index]) ? $base[$index] : null;
             }
             $context->setPropertyResolved(true);
         }
