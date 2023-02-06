@@ -70,18 +70,18 @@ class ObjectELResolver extends ELResolver
         }
         $result = null;
         if ($this->isResolvable($base)) {
-            $prop = $this->toObjectProperty($base, $property);
-            if ($prop === null) {
-                throw new PropertyNotFoundException("Cannot read property " . $property);
-            }
             try {
                 if (($method = $this->findMethodIfExists($base, 'get' . ucfirst($property))) || ($method = $this->findMethodIfExists($base, 'is' . ucfirst($property)))) {
                     $result = $method->invoke($base);
                 } else {
+                    $prop = $this->toObjectProperty($base, $property);
+                    if ($prop === null) {
+                        throw new PropertyNotFoundException("Cannot read property " . $property);
+                    }
                     $result = $prop->getValue($base);
-                }
+                }                
             } catch (\Exception $e) {
-                throw new ELException("Unable to read object property");
+                throw new ELException("Unable to read object property " . $property);
             }
             $context->setPropertyResolved(true);
         }
