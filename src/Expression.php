@@ -2,7 +2,7 @@
 
 namespace El;
 
-abstract class Expression implements \Serializable
+abstract class Expression
 {
     /**
      * Determines whether the specified object is equal to this Expression. The result is true if

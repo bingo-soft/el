@@ -2,7 +2,7 @@
 
 namespace El;
 
-class ValueReference implements \Serializable
+class ValueReference
 {
     private $base;
     private $property;
@@ -13,19 +13,18 @@ class ValueReference implements \Serializable
         $this->property = $property;
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return json_encode([
+        return [
             'base' => serialize($this->base),
             'property' => serialize($this->property)
-        ]);
+        ];
     }
 
-    public function unserialize($data)
+    public function __unserialize(array $data): void
     {
-        $json = json_decode($data);
-        $this->base = unserialize($json->base);
-        $this->property = unserialize($json->property);
+        $this->base = unserialize($data['base']);
+        $this->property = unserialize($data['property']);
     }
 
     public function getBase()
