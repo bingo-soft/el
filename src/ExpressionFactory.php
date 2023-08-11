@@ -19,7 +19,7 @@ abstract class ExpressionFactory
      *             if the class could not be found or if it is not a subclass of ExpressionFactory
      *             or if the class could not be instantiated.
      */
-    public static function newInstance(?array $properties = null, string $className): ?ExpressionFactory
+    public static function newInstance(?array $properties = null, ?string $className = null): ?ExpressionFactory
     {
         if ($properties !== null) {
             return $className::newInstance(...$properties);
